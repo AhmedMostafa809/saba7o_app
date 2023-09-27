@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "160172005425",
+    "project_id": "sapa7o-app",
+    "storage_bucket": "sapa7o-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:160172005425:android:e277515e951fd87ba81d10",
+        "android_client_info": {
+          "package_name": "com.example.saba7o_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC_YWdAwCP19bWIXnthPRDXp7xIWNqg6p8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

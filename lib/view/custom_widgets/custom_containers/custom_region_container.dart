@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_ringtone_player/flutter_ringtone_player.dart';
 import 'package:get/get.dart';
@@ -34,7 +33,10 @@ class CustomRegionContainer extends StatelessWidget {
       onTap: () {
         AppConstants.isLocal= local;
         if (hasSound == true) {
-          FlutterRingtonePlayer.play(fromAsset: soundPath);
+          FlutterRingtonePlayer.play(
+              asAlarm: true,
+
+              fromAsset: soundPath);
         }
         Get.to(navigationPage);
       },

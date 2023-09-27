@@ -19,7 +19,6 @@ class GradientCircleAvatar extends StatelessWidget {
       radius: radius,
       backgroundColor: Colors.transparent,
       child: Container(
-
         height: double.infinity,
         width:  double.infinity,
         decoration: BoxDecoration(

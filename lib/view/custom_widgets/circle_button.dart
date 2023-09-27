@@ -14,22 +14,17 @@ class RoundButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(
-        horizontal: 5,
+    return GradientCircleAvatar(
+      gradient: LinearGradient(
+        colors: [AppColors.gold, AppColors.gold.withGreen(20)],
+        begin: Alignment.topLeft,
+        end: Alignment.bottomRight,
       ),
-      child: GradientCircleAvatar(
-        gradient: LinearGradient(
-          colors: [AppColors.gold, AppColors.gold.withGreen(20)],
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-        ),
-        radius: 30.sp,
-        child: Icon(
-          icon,
-          color: Colors.white,
-          size: 36,
-        ),
+      radius: 30.sp,
+      child: Icon(
+        icon,
+        color: Colors.white,
+        size: 36,
       ),
     );
   }

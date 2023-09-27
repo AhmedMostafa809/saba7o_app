@@ -1,7 +1,9 @@
-import 'dart:ui';
+import 'dart:math';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:saba7o_app/constants/utils.dart';
+import 'package:saba7o_app/view/custom_widgets/custom_containers/custom_button.dart';
 import 'package:sizer/sizer.dart';
 import '../../constants/app_colors.dart';
 import 'package:flutter_ringtone_player/flutter_ringtone_player.dart';
@@ -18,7 +20,6 @@ class PasswordGamePage extends StatefulWidget {
 class _PasswordGamePageState extends State<PasswordGamePage>
     with TickerProviderStateMixin {
   late AnimationController controller;
-
   bool isPlaying = false;
   double progress = 1.0;
 
@@ -30,8 +31,8 @@ class _PasswordGamePageState extends State<PasswordGamePage>
   }
 
   void notify() {
-    if (countText == '00:00') {
-      FlutterRingtonePlayer.play(fromAsset: AppSounds.timeOut);
+    if (controller.isDismissed) {
+      FlutterRingtonePlayer.play(asAlarm: true, fromAsset: AppSounds.timeOut);
     }
   }
 
@@ -64,6 +65,50 @@ class _PasswordGamePageState extends State<PasswordGamePage>
     super.dispose();
   }
 
+  //firebase
+
+  final FirebaseStorage storage = FirebaseStorage.instance;
+  String imageUrl = '';
+  String imageName = '';
+  bool isLoading = false;
+
+  Future<Map<String, String>> getRandomImage() async {
+    setState(() {
+      isLoading = true;
+    });
+
+    try {
+      final storageRef = storage.ref().child('ez/');
+      final ListResult result = await storageRef.listAll();
+
+      if (result.items.isEmpty) {
+        setState(() {
+          isLoading = false;
+        });
+      }
+      final randomIndex = Random().nextInt(result.items.length);
+      final imageRef = result.items[randomIndex];
+      final imageUrl = await imageRef.getDownloadURL();
+      final imageNameWithExtension = imageRef.name;
+      final parts = imageNameWithExtension.split('.');
+      final baseName = parts[0];
+
+      setState(() {
+        isLoading = false;
+        this.imageUrl = imageUrl;
+        this.imageName = baseName;
+      });
+
+      return {'url': imageUrl, 'name': baseName};
+    } catch (e) {
+      setState(() {
+        isLoading = false;
+      });
+      print('Error fetching image: $e');
+      return {'url': '', 'name': ''};
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -73,12 +118,67 @@ class _PasswordGamePageState extends State<PasswordGamePage>
           fit: BoxFit.cover,
           width: double.infinity,
         ),
-        Scaffold(
-          backgroundColor: AppColors.backGround.withAlpha(15),
-          body: Column(
-            children: [
-              Expanded(
-                child: GestureDetector(
+        SafeArea(
+
+          child: Scaffold(
+            backgroundColor: AppColors.backGround.withAlpha(15),
+            body: Column(
+              // mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Column(
+                  // mainAxisAlignment: MainAxisAlignment.center,
+                  children: [ // Add some spacing
+                    isLoading
+                        ? CircularProgressIndicator()
+                        : imageUrl.isNotEmpty
+                            ? Column(
+                                children: [
+                                  Text(
+                                   imageName,
+                                    style: AppConstants.mainFont,
+                                  ),
+                                  Container(
+                                    height: 30.h,
+                                    width: 60.w,
+                                    decoration: BoxDecoration(
+                                        image: DecorationImage(
+                                            image: NetworkImage(
+                                              imageUrl,
+                                            ),
+                                            fit: BoxFit.contain),
+                                        gradient: LinearGradient(
+                                          colors: [
+                                            AppColors.gold,
+                                            AppColors.gold.withGreen(20)
+                                          ],
+                                          begin: Alignment.topLeft,
+                                          end: Alignment
+                                              .bottomRight, // Gradient end position
+                                        ),
+                                        borderRadius: const BorderRadius.all(
+                                            Radius.circular(16))),
+
+                                  ),
+
+                                ],
+                              )
+                            : Text('Press the button'),
+
+
+                  ],
+                ),
+
+                CustomButton(txt: "Change", width: 70.w, height: 7.h, clr1: AppColors.gold, clr2: AppColors.gold.withGreen(50),onTap: (){
+                  setState(() {});
+                  getRandomImage();
+                },),
+
+                Column(
+                  // mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+
+                  GestureDetector(
                   onTap: () {
                     if (controller.isDismissed) {
                       showModalBottomSheet(
@@ -86,7 +186,7 @@ class _PasswordGamePageState extends State<PasswordGamePage>
                         context: context,
                         builder: (context) => Container(
                           decoration: const BoxDecoration(
-                              // color: AppColors.backGround.withAlpha(15),
+                            // color: AppColors.backGround.withAlpha(15),
                               borderRadius: BorderRadius.only(
                                   topLeft: Radius.circular(30),
                                   topRight: Radius.circular(30))),
@@ -140,55 +240,56 @@ class _PasswordGamePageState extends State<PasswordGamePage>
                     ),
                   ),
                 ),
-              ),
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    GestureDetector(
-                      onTap: () {
-                        if (controller.isAnimating) {
-                          controller.stop();
-                          setState(() {
-                            isPlaying = false;
-                          });
-                        } else {
-                          controller.reverse(
-                              from: controller.value == 0
-                                  ? 1.0
-                                  : controller.value);
-                          setState(() {
-                            isPlaying = true;
-                          });
-                        }
-                      },
-                      child: RoundButton(
-                        icon:
+                  Padding(
+                    padding:
+                     EdgeInsets.only(right: 10.w,left: 10.w, top: 4.h),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                            if (controller.isAnimating) {
+                              controller.stop();
+                              setState(() {
+                                isPlaying = false;
+                              });
+                            } else {
+                              controller.reverse(
+                                  from: controller.value == 0
+                                      ? 1.0
+                                      : controller.value);
+                              setState(() {
+                                isPlaying = true;
+                              });
+                            }
+                          },
+                          child: RoundButton(
+                            icon:
                             isPlaying == true ? Icons.pause : Icons.play_arrow,
-                      ),
+                          ),
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            controller.reset();
+                            setState(() {
+                              isPlaying = false;
+                            });
+                          },
+                          child: const RoundButton(
+                            icon: Icons.stop,
+                          ),
+                        ),
+                      ],
                     ),
-                    GestureDetector(
-                      onTap: () {
-                        controller.reset();
-                        setState(() {
-                          isPlaying = false;
-                        });
-                      },
-                      child: const RoundButton(
-                        icon: Icons.stop,
-                      ),
-                    ),
-                  ],
-                ),
-              )
-            ],
+                  )
+                  ],),
+
+              ],
+
+            ),
           ),
         ),
       ],
     );
   }
 }
-
-

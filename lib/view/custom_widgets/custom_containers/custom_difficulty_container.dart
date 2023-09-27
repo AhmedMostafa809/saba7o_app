@@ -1,4 +1,3 @@
-import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_ringtone_player/flutter_ringtone_player.dart';
@@ -40,7 +39,8 @@ class CustomDifficultyContainer extends StatelessWidget {
       highlightColor: AppColors.gold.withOpacity(.2),
       onTap: () {
         if (hasSound == true) {
-          FlutterRingtonePlayer.play(fromAsset: soundPath);
+          FlutterRingtonePlayer.play(
+              asAlarm: true,fromAsset: soundPath);
         }
         Get.to(navigationPage);
       },

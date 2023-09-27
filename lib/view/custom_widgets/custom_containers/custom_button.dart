@@ -1,7 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
-import '../../../constants/app_colors.dart';
 import '../../../constants/utils.dart';
 import '../stroke_txt.dart';
 
@@ -24,8 +21,6 @@ class CustomButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      // hoverColor: Colors.transparent,
-      // focusColor: Colors.transparent,
       splashColor: Colors.transparent,
       highlightColor: Colors.transparent,
       onTap: onTap,
