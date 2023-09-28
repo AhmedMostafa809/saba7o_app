@@ -1,7 +1,12 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
+import 'package:saba7o_app/view/pages/choose_difficulty_page.dart';
 import 'package:saba7o_app/view/pages/choose_region_page.dart';
+import 'package:saba7o_app/view/pages/play_page.dart';
+import 'package:saba7o_app/view_model/get_palyers/get_random_player_cubit.dart';
 import 'package:sizer/sizer.dart';
 
 import 'firebase_options.dart';
@@ -10,7 +15,13 @@ void main() async{
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(const MyApp());
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]).then((value) => runApp(MultiBlocProvider(providers: [
+    BlocProvider(create: (context) => GetRandomPlayerCubit()..getRandomPlayer("ez/"),)
+  ],child: const MyApp()
+  )));
 }
 
 class MyApp extends StatelessWidget {

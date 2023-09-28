@@ -5,6 +5,8 @@ import 'package:saba7o_app/constants/app_colors.dart';
 import 'package:saba7o_app/constants/utils.dart';
 import 'package:saba7o_app/view/custom_widgets/containers_lists/containers_lists.dart';
 
+import '../custom_widgets/stroke_txt.dart';
+
 class RegionPage extends StatefulWidget {
   const RegionPage({Key? key}) : super(key: key);
 
@@ -48,6 +50,7 @@ class _RegionPageState extends State<RegionPage> {
           backgroundColor: AppColors.backGround.withAlpha(15),
           body: Stack(
             children: [
+
               //shadow position
               Positioned(
                   left: 20,
@@ -71,7 +74,14 @@ class _RegionPageState extends State<RegionPage> {
                 itemCount: ContainersLists.regionContainers.length + 1,
                 itemBuilder: (context, index) {
                   if (index == 0) {
-                    return const SizedBox.shrink();
+                    return  Center(
+                        child: FittedBox(
+                            child: StrokeText(
+                                text: "اختار منطقه",
+                                strokeStyle: AppConstants.mainFontStroke,
+                                txtStyle: AppConstants.mainFont)
+
+                        ));
                   }
                   final regionContainer =
                       ContainersLists.regionContainers[index - 1];

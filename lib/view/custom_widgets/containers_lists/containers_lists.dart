@@ -8,14 +8,7 @@ import 'package:saba7o_app/view/pages/play_page.dart';
 
 class ContainersLists {
    static List<Widget>  regionContainers= [
-     Center(
-         child: FittedBox(
-             child: StrokeText(
-                 text: "اختار منطقه",
-                 strokeStyle: AppConstants.mainFontStroke,
-                 txtStyle: AppConstants.mainFont)
 
-         )),
      CustomRegionContainer(
        hasSound: true,
        navigationPage: const ChooseDifficultyPage(),
@@ -36,14 +29,7 @@ class ContainersLists {
 
 
   static List<Widget> difficultyContainers = [
-    Center(
-        child: FittedBox(
-            child: StrokeText(
-                text: "اختار مستوى",
-                strokeStyle: AppConstants.mainFontStroke,
-                txtStyle: AppConstants.mainFont)
-            // Text("اختار مستوى", style: AppConstants.mainFont),
-            )),
+
     CustomDifficultyContainer(
       hasSound: true,
       navigationPage: const PasswordGamePage(),

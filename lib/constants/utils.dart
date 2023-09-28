@@ -2,12 +2,13 @@
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:just_audio/just_audio.dart';
 import 'package:sizer/sizer.dart';
 
 import 'app_colors.dart';
 
 class AppConstants {
-
+  static var player = AudioPlayer();
   static bool? isLocal;
 
 
@@ -30,14 +31,14 @@ class AppConstants {
 
 
   static TextStyle mainFontStroke = GoogleFonts.lalezar(
-    fontSize: 40,
+    fontSize: 50.sp,
     foreground: Paint()
       ..style = PaintingStyle.stroke
       ..strokeWidth = 2
       ..color = Colors.black87,
   );
   static TextStyle mainFont = GoogleFonts.lalezar(
-      fontSize: 40, fontWeight: FontWeight.w400, color: Colors.white);
+      fontSize: 50.sp, fontWeight: FontWeight.w400, color: Colors.white);
 }
 
 
@@ -55,11 +56,11 @@ class AppAssets{
 
 
 class AppSounds{
-  static String worldWide = "assets/messi.mp3";
-  static String egyptianLeague = "assets/wtf.mp3";
-  static String EZ = "assets/EZ.mp3";
-  static String Mid = "assets/Mid.mp3";
-  static String Hard = "assets/Hard.mp3";
-  static String timeOut = "assets/TimeOut.mp3";
+  static String worldWide = "asset:assets/messi.mp3";
+  static String egyptianLeague = "asset:assets/wtf.mp3";
+  static String EZ = "asset:assets/EZ.mp3";
+  static String Mid = "asset:assets/Mid.mp3";
+  static String Hard = "asset:assets/Hard.mp3";
+  static String timeOut = "asset:assets/TimeOut.mp3";
 
 }

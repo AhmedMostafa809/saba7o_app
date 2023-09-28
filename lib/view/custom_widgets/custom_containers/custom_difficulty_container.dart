@@ -39,8 +39,11 @@ class CustomDifficultyContainer extends StatelessWidget {
       highlightColor: AppColors.gold.withOpacity(.2),
       onTap: () {
         if (hasSound == true) {
-          FlutterRingtonePlayer.play(
-              asAlarm: true,fromAsset: soundPath);
+          // FlutterRingtonePlayer.play(
+          //     asAlarm: true,fromAsset: soundPath);
+          AppConstants.player.setUrl(soundPath!);
+          AppConstants.player.play();
+          Get.to(navigationPage);
         }
         Get.to(navigationPage);
       },

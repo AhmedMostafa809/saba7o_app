@@ -33,12 +33,15 @@ class CustomRegionContainer extends StatelessWidget {
       onTap: () {
         AppConstants.isLocal= local;
         if (hasSound == true) {
-          FlutterRingtonePlayer.play(
-              asAlarm: true,
-
-              fromAsset: soundPath);
+        //   FlutterRingtonePlayer.play(
+        //       asAlarm: true,
+        //
+        //       fromAsset: soundPath);
+          AppConstants.player.setUrl(soundPath!);
+          AppConstants.player.play();
+          Get.to(navigationPage);
         }
-        Get.to(navigationPage);
+
       },
       child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 20),

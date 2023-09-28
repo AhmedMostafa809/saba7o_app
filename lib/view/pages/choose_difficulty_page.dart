@@ -2,7 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../constants/app_colors.dart';
+import '../../constants/utils.dart';
 import '../custom_widgets/containers_lists/containers_lists.dart';
+import '../custom_widgets/stroke_txt.dart';
 
 class ChooseDifficultyPage extends StatefulWidget {
   const ChooseDifficultyPage({Key? key}) : super(key: key);
@@ -74,7 +76,14 @@ class _ChooseDifficultyPageState extends State<ChooseDifficultyPage> {
                 itemCount: ContainersLists.difficultyContainers.length + 1,
                 itemBuilder: (context, index) {
                   if (index == 0) {
-                    return const SizedBox.shrink();
+                    return  Center(
+                        child: FittedBox(
+                            child: StrokeText(
+                                text: "اختار مستوى",
+                                strokeStyle: AppConstants.mainFontStroke,
+                                txtStyle: AppConstants.mainFont)
+                          // Text("اختار مستوى", style: AppConstants.mainFont),
+                        ));
                   }
                   final difficultyContainer =
                       ContainersLists.difficultyContainers[index - 1];
